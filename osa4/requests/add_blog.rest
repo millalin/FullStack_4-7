@@ -1,0 +1,9 @@
+post http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "testblog",
+  "author": "Tiina Testi",
+  "url": "www.bloggiliini.fi",
+  "likes": "12"
+}
