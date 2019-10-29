@@ -57,58 +57,81 @@ test('adding blog works right ', async () => {
         url: 'url',
         likes: '',
     }
-  
+
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(200)
       .expect('Content-Type', /application\/json/)
-  
+
     const response = await api.get('/api/blogs')
-  
+
     console.log(response.body)
-  
+
     expect(response.body[3].likes).toBe(0)
-    
+
   })
 
-  test('fails with status code 400 when missing title and url', async () => {
-    const newBlog = {
-      author: 'Milla',
-      likes: 102
-    }
+test('fails with status code 400 when missing title and url', async () => {
+  const newBlog = {
+    author: 'Milla',
+    likes: 102
+  }
 
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(400)
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
 
-    const total = await helper.blogsInDb()
+  const total = await helper.blogsInDb()
 
-    expect(total.length).toBe(helper.list.length)
-  })
+  expect(total.length).toBe(helper.list.length)
+})
 
-  test('blog is deleted', async () => {
-    const first = await helper.blogsInDb()
-    const blogDel = first[0]
+test('blog is deleted', async () => {
+  const first = await helper.blogsInDb()
+  const blogDel = first[0]
 
-    await api
-      .delete(`/api/blogs/${blogDel.id}`)
-      .expect(204)
+  await api
+    .delete(`/api/blogs/${blogDel.id}`)
+    .expect(204)
 
-    const after = await helper.blogsInDb()
+  const after = await helper.blogsInDb()
 
-    expect(after.length).toBe(
-      helper.list.length - 1
-    )
+  expect(after.length).toBe(
+    helper.list.length - 1
+  )
 
-    const titles = after.map(r => r.title)
+  const titles = after.map(r => r.title)
 
-    expect(titles).not.toContain(blogDel.title)
-  })
+  expect(titles).not.toContain(blogDel.title)
+})
 
+test('blog is modified', async () => {
+  const first = await helper.blogsInDb()
+  const blog1 = first[0]
+
+  const blog = {
+
+    title: 'One',
+    author: 'Peter',
+    url: 'url1',
+    likes: 1,
+
+  }
+
+  await api
+    .put(`/api/blogs/${blog1.id}`)
+    .send(blog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+
+  expect(response.body[0].likes).toBe(1)
+
+})
 
 afterAll(() => {
   mongoose.connection.close()
 })
-
