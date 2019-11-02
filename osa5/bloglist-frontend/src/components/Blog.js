@@ -14,7 +14,11 @@ const Blog = ({ blog, un }) => {
   }
 
   const delButton = () => {
-   if (1 !==1) {// if (un !== blog.user.username){
+
+   console.log('käyttäjä', blog.user)
+   console.log('käyttäjänimi', un)
+  
+   if (un !== blog.user.username){
       return (
         <div></div>
       )

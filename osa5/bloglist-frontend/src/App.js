@@ -19,7 +19,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [addblogVisible, setAddblogVisible] = useState(false)
-
+  const [un, setun] = useState('')
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -30,6 +30,7 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
+      setun(user.username)
       console.log(user)
     } catch (exception) {
       setUsername('')
@@ -60,13 +61,26 @@ const App = () => {
 
 
 
-  const bloglist = () => blogs.map(blog =>
-    <Blog
-      key={blog.id}
-      blog={blog}
+  const bloglist = () => {
 
-    />
-  )
+    const moreLikes = (a, b) => {
+      if (a.likes < b.likes) return 1
+      if (a.likes > b.likes) return -1
+      return 0
+    }
+    blogs.sort(moreLikes)
+    return (
+      <div>
+        {blogs.map(blog =>
+          <Blog
+            key={blog.id}
+            blog={blog}
+            un={un}
+          />
+        )}
+      </div>
+    )
+  }
 
 
   const blogForm = () => {
@@ -124,6 +138,7 @@ const App = () => {
     window.localStorage.clear()
     console.log('logattu ulos')
     setUser(null)
+    setun('')
   }
 
   const loginForm = () => (
