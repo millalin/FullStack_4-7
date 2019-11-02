@@ -1,11 +1,57 @@
-import React from 'react'
-const Blog = ({ blog }) => (
-  <div>
-    <p>Title: {blog.title}</p>  
-    <p>Author: {blog.author}  </p>
-    <p>Url: {blog.url} </p>
-    <br></br>
-  </div>
-)
+import React, { useState } from 'react'
+import blogService from '../services/blogs'
+
+
+const Blog = ({ blog, un }) => {
+  const [showinfo, setShowInfo] = useState(true)
+
+
+
+  const deleteBlog = () => {
+    if (window.confirm(`Remove ${blog.title} by ${blog.author} ?`)){
+      blogService.remove(blog.id)
+    }
+  }
+
+  const delButton = () => {
+   if (1 !==1) {// if (un !== blog.user.username){
+      return (
+        <div></div>
+      )
+    }
+
+    return (
+      <div>
+      <button onClick={deleteBlog}>remove</button>
+    </div>
+    )
+  }
+
+  const likeAdding = () => {
+    blog.likes = blog.likes + 1
+    console.log('tul', blog.likes, blog.title)
+    blogService.update(blog)
+    
+  }
+
+  if (showinfo) {
+    return (
+      <div onClick={() => setShowInfo(!showinfo)}>
+        <p>Title: <b> {blog.title}  </b>Author: {blog.author}  </p>
+        <br></br>
+      </div>)
+  } else {
+    return (
+      <div onClick={() => setShowInfo(!showinfo)}>
+        <p>Title: <b> {blog.title}  </b>Author: {blog.author}  </p>
+        <p>Url: {blog.url} Likes: {blog.likes}</p>
+        <button onClick={likeAdding}>like</button>
+        {delButton()}
+        <br></br>
+      </div>
+
+    )
+  }
+}
 
 export default Blog
