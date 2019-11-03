@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const blogForm = ({
     handleSubmit,
     newBlog,
@@ -9,6 +10,8 @@ const blogForm = ({
     handlenewauthor,
     handlenewurl
 }) => {
+
+
     return (
     <form onSubmit={handleSubmit}>
     <div>
@@ -27,6 +30,8 @@ const blogForm = ({
     </form>
   )
 }
+
+
 
 export default blogForm
 

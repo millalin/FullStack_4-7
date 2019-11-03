@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
-
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, un }) => {
+
+Blog.propTypes  = {
+  blog: PropTypes.object.isRequired,
+  un: PropTypes.string.isRequired
+}
   const [showinfo, setShowInfo] = useState(true)
-
-
 
   const deleteBlog = () => {
     if (window.confirm(`Remove ${blog.title} by ${blog.author} ?`)){
