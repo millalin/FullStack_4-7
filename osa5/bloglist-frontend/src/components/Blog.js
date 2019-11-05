@@ -10,6 +10,7 @@ Blog.propTypes  = {
 }
   const [showinfo, setShowInfo] = useState(true)
 
+
   const deleteBlog = () => {
     if (window.confirm(`Remove ${blog.title} by ${blog.author} ?`)){
       blogService.remove(blog.id)
@@ -17,9 +18,6 @@ Blog.propTypes  = {
   }
 
   const delButton = () => {
-
-   console.log('käyttäjä', blog.user)
-   console.log('käyttäjänimi', un)
   
    if (un !== blog.user.username){
       return (
@@ -36,20 +34,24 @@ Blog.propTypes  = {
 
   const likeAdding = () => {
     blog.likes = blog.likes + 1
-    console.log('tul', blog.likes, blog.title)
+    
     blogService.update(blog)
     
   }
 
+  const showBlog = () => {
+    setShowInfo(!showinfo)
+  }
+
   if (showinfo) {
     return (
-      <div onClick={() => setShowInfo(!showinfo)}>
+      <div onClick={showBlog}>
         <p>Title: <b> {blog.title}  </b>Author: {blog.author}  </p>
         <br></br>
       </div>)
   } else {
     return (
-      <div onClick={() => setShowInfo(!showinfo)}>
+      <div className="showall" onClick={showBlog} >
         <p>Title: <b> {blog.title}  </b>Author: {blog.author}  </p>
         <p>Url: {blog.url} Likes: {blog.likes}</p>
         <button onClick={likeAdding}>like</button>

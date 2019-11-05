@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
@@ -12,14 +11,13 @@ const App = () => {
   const [newBlog, setNewBlog] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
-  const [showinfo, setShowInfo] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [addblogVisible, setAddblogVisible] = useState(false)
-  const [un, setun] = useState('')
+  const [un, setUn] = useState('')
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -30,8 +28,8 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      setun(user.username)
-      console.log(user)
+      console.log('user', user, 'username',user.username)
+      
     } catch (exception) {
       setUsername('')
       setPassword('')
@@ -44,8 +42,8 @@ const App = () => {
 
   useEffect(() => {
     blogService
-      .getAll().then(blogs => {
-        setBlogs(blogs)
+      .getAll().then(initBlogs => {
+        setBlogs(initBlogs)
       })
   }, [])
 
@@ -55,6 +53,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      console.log('onko käyttäjää',user)
       blogService.setToken(user.token)
     }
   }, [])
@@ -70,12 +69,12 @@ const App = () => {
     }
     blogs.sort(moreLikes)
     return (
-      <div>
+      <div className="list">
         {blogs.map(blog =>
           <Blog
             key={blog.id}
             blog={blog}
-            un={un}
+            un={user.username}
           />
         )}
       </div>
@@ -134,11 +133,11 @@ const App = () => {
 
   const handleLogOut = async (event) => {
     event.preventDefault()
+    console.log('lgattu yjlos')
     window.localStorage.removeItem('loggedUser')
     window.localStorage.clear()
-    console.log('logattu ulos')
     setUser(null)
-    setun('')
+    setUn('')
   }
 
   const loginForm = () => (
@@ -174,9 +173,11 @@ const App = () => {
             <button type="submit">log out</button>
           </form>
           {blogForm()}
+        
+          {bloglist()}
         </div>
       }
-      {bloglist()}
+    
       <div>
       </div>
     </div>
