@@ -6,7 +6,8 @@ const blogForm = ({
     newBlog,
     newAuthor,
     newUrl,
-    addBlog
+    addBlog,
+    reset
     
 }) => {
 

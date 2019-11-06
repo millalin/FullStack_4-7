@@ -60,7 +60,6 @@ describe('<Blog />', () => {
         expect(show).toHaveTextContent('Test title')
         expect(show).toHaveTextContent('url') 
 
-
     })
 
 
