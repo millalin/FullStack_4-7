@@ -43,6 +43,8 @@ Blog.propTypes  = {
     setShowInfo(!showinfo)
   }
 
+ 
+
   if (showinfo) {
     return (
       <div onClick={showBlog}>

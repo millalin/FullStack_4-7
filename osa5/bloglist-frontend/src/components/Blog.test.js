@@ -1,24 +1,14 @@
 import React from 'react'
-//import '@testing-library/jest-dom/extend-expect'
 import { render } from '@testing-library/react'
 import Blog from './Blog'
 
-const blog = {
-    title: 'Test title',
-    author: 'auth',
-    url: 'url',
-    likes: 2,
-    user: {
-        username: "Kalle",
-        name: "Kalle"
-    }
-}
+
 
 
 describe('<Blog />', () => {
     let component
 
-    beforeEach(() => {
+    
         const blog = {
             title: 'Test title',
             author: 'auth',
@@ -26,8 +16,10 @@ describe('<Blog />', () => {
             likes: 2,
             user: {
                 username: "Kalle",
-                name: "Kalle"
-            }
+                name: "Kalle",
+                id: 12341234
+            },
+            id: 11223344
         }
 
         component = render(
@@ -35,14 +27,14 @@ describe('<Blog />', () => {
                
             
         )
-    })
+    
 
 
 
     test('renders content', () => {
 
 
-       /* expect(component.container).toHaveTextContent(
+        expect(component.container).toHaveTextContent(
             'Test title'
         )
 
@@ -57,19 +49,16 @@ describe('<Blog />', () => {
         expect(component.container).not.toHaveTextContent(
             '2'
         )
-*/
+
     })
 
     test('renders content when pressed', () => {
 
-        /*const component = render (
-            <Blog blog={blog} username="Kalle"/>
-        )
 
         const show = component.container.querySelector('.showall')
-        console.log('mitä', show)
+        
         expect(show).toHaveTextContent('Test title')
-        expect(show).toHaveTextContent('url') */
+        expect(show).toHaveTextContent('url') 
 
 
     })
