@@ -36,7 +36,6 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case 'NEW ANECDOTE':
-      console.log('what', action.data)
       return [...state, action.data]
     case 'VOTE':
       const id = action.data.id
@@ -59,5 +58,7 @@ const reducer = (state = initialState, action) => {
 
 
 }
+
+
 
 export default reducer

@@ -1,6 +1,7 @@
 import React from 'react'
 import NewAn from './components/AnecdoteForm';
 import AnecdoteList from './components/AnecdoteList'
+import Notification from './components/Notification'
 
 const App = (props) => {
 
@@ -11,6 +12,7 @@ const App = (props) => {
       < AnecdoteList store={props.store}/>
       
       <NewAn store={props.store} />
+      <Notification store={props.store} />
     </div>
   )
 }
