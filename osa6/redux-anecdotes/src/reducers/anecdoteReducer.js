@@ -28,7 +28,10 @@ export const newAnecdote = (anecdote) => {
   }
 }
 
+
+
 const initialState = anecdotesAtStart.map(asObject)
+let all = initialState
 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
@@ -36,7 +39,13 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case 'NEW ANECDOTE':
-      return [...state, action.data]
+      all = [...state, action.data]
+      return all
+    case 'FILTER':
+      return state.filter(an => an.content.includes(action.data))
+    
+    case 'ALL_LISTED':
+        return all
     case 'VOTE':
       const id = action.data.id
       const anecdoteToChange = state.find(a => a.id === id)

@@ -1,6 +1,4 @@
 import React from 'react'
-import {notificationVoted} from './Notification'
-import {useEffect} from 'react'
 
 
 
