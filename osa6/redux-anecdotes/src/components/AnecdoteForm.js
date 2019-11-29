@@ -1,16 +1,16 @@
 import React from 'react'
-import { newAnecdote } from '../reducers/anecdoteReducer'
-
+import {newAnecdote} from '../reducers/anecdoteReducer'
+import { connect} from 'react-redux'
+import anecdoteService from '../services/anecdotes'
 
 const NewAn = (props) => {
-    const addAnecdote = (event) => {
+
+    const addAnecdote = async (event) => {
         event.preventDefault()
         const content = event.target.anecdote.value
-
-        props.store.dispatch(
-            newAnecdote(content)
-        )
         event.target.anecdote.value = ''
+        const newA = await anecdoteService.createNew(content)
+        props.newAnecdote(newA)
     }
 
     return (
@@ -24,5 +24,14 @@ const NewAn = (props) => {
     )
 }
 
-export default NewAn
+const mapStateToProps = (state) => {
+    return {
+      anecdotes: state.anecdotes,
+      notification: state.notification,
+      filter: state.filter
+    }
+  }
+
+export default connect(null,{newAnecdote})(NewAn)
+
 

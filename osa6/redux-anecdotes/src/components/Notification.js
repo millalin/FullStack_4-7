@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect} from 'react-redux'
 
 
 const Notification = (props) => {
@@ -9,7 +10,7 @@ const Notification = (props) => {
   }
 
  
-if(props.store.getState().notification === 'start') {
+if(props.notification === 'start') {
   return (
     <div></div>
   )
@@ -18,11 +19,20 @@ if(props.store.getState().notification === 'start') {
   return (
     <div style={style}>
       You voted '
-       {props.store.getState().notification} '
+       {props.notification} '
 
      
     </div>
   )
 }
 
-export default Notification
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    notification: state.notification,
+    filter: state.filter
+  }
+}
+
+const ConnectedList = connect(mapStateToProps)(Notification)
+export default ConnectedList

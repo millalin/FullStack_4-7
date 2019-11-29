@@ -1,39 +1,53 @@
 import React from 'react'
-
+import { connect} from 'react-redux'
 
 
 const listAnecdotes = (props) => {
+
     const vote = (id, content) => {
         console.log('vote', id, content)
-        props.store.dispatch({
+        props.dispatch({
           type: 'VOTE',
           data: { id }
         })
-        props.store.dispatch({
+        props.dispatch({
           type: 'VOTEINFO',
           data: { content }
           
         })
         setTimeout(() => {
-          props.store.dispatch({ type: 'HIDE_NOTIFICATION' })
+          props.dispatch({ type: 'HIDE_NOTIFICATION' })
         }, 5000)
 
         } 
       
 
     return (
-        props.store.getState().anecdotes.map(anecdote =>
+      <div>
+        {props.anecdotes.map(anecdote =>
             <div key={anecdote.id}>
               <div>
-                {anecdote.content}
+                {anecdote.content} 
               </div>
               <div>
                 has {anecdote.votes}
                 <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
               </div>
             </div>
-          )
+            
+          )}
+          </div>
     )
 }
 
-export default listAnecdotes
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    notification: state.notification,
+    filter: state.filter
+  }
+}
+
+
+const ConnectedList = connect(mapStateToProps)(listAnecdotes)
+export default ConnectedList

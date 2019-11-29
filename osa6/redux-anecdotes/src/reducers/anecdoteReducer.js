@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -17,35 +19,38 @@ const asObject = (anecdote) => {
   }
 }
 
-export const newAnecdote = (anecdote) => {
+export const newAnecdote = (data) => {
   return {
-    type: 'NEW ANECDOTE',
-    data: {
-      content: anecdote,
-      id: getId(),
-      votes: 0
+    type: 'NEW_ANECDOTE',
+    data
     }
   }
-}
+   
+
 
 
 
 const initialState = anecdotesAtStart.map(asObject)
-let all = initialState
 
-const reducer = (state = initialState, action) => {
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'ALL_LISTED',
+    data: anecdotes
+  }
+}
+
+
+const reducer = (state = [], action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
   switch (action.type) {
-    case 'NEW ANECDOTE':
-      all = [...state, action.data]
-      return all
+    case 'NEW_ANECDOTE':
+      return [...state, action.data]
     case 'FILTER':
       return state.filter(an => an.content.includes(action.data))
-    
     case 'ALL_LISTED':
-        return all
+        return action.data
     case 'VOTE':
       const id = action.data.id
       const anecdoteToChange = state.find(a => a.id === id)
