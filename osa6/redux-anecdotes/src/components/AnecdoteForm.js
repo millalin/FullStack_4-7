@@ -1,7 +1,6 @@
 import React from 'react'
 import {newAnecdote} from '../reducers/anecdoteReducer'
 import { connect} from 'react-redux'
-import anecdoteService from '../services/anecdotes'
 
 const NewAn = (props) => {
 
@@ -9,8 +8,7 @@ const NewAn = (props) => {
         event.preventDefault()
         const content = event.target.anecdote.value
         event.target.anecdote.value = ''
-        const newA = await anecdoteService.createNew(content)
-        props.newAnecdote(newA)
+        props.newAnecdote(content)
     }
 
     return (
@@ -24,13 +22,6 @@ const NewAn = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-      anecdotes: state.anecdotes,
-      notification: state.notification,
-      filter: state.filter
-    }
-  }
 
 export default connect(null,{newAnecdote})(NewAn)
 

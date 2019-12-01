@@ -20,24 +20,54 @@ const asObject = (anecdote) => {
 }
 
 export const newAnecdote = (data) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data
-    }
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(data)
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: newAnecdote
+    })
   }
+}
+
+export const vote = (id) => {
+  return async dispatch => {
+    await anecdoteService.updateAnecdote(id)
+    dispatch({
+      type: 'VOTE',
+      data: { id }
+    })
    
+  }
+}
 
+export const notificationInfo = (content, time) => {
+  return async dispatch => {
 
+    dispatch({
+      type: 'VOTEINFO',
+      data: { content }
+
+    })
+    setTimeout(() => {
+      dispatch({ type: 'HIDE_NOTIFICATION' })
+    }, time*1000)
+  }
+}
 
 
 const initialState = anecdotesAtStart.map(asObject)
 
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: 'ALL_LISTED',
-    data: anecdotes
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'ALL_LISTED',
+      data: anecdotes,
+    })
   }
 }
+
+
 
 
 const reducer = (state = [], action) => {
@@ -47,8 +77,6 @@ const reducer = (state = [], action) => {
   switch (action.type) {
     case 'NEW_ANECDOTE':
       return [...state, action.data]
-    case 'FILTER':
-      return state.filter(an => an.content.includes(action.data))
     case 'ALL_LISTED':
         return action.data
     case 'VOTE':

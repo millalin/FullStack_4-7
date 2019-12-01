@@ -19,12 +19,13 @@ const notificationReducer = (state = notification, action) => {
           console.log('jaa')
           state = action.data.content
           return state
-case 'HIDE_NOTIFICATION':
-state = 'start'
+    case 'HIDE_NOTIFICATION':
+           state = 'start'
             default:
                     return state
     }
     
 }
+
 
 export default notificationReducer

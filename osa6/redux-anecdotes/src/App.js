@@ -11,8 +11,7 @@ import { initializeAnecdotes} from './reducers/anecdoteReducer'
 const App = (props) => {
 
   useEffect(() => {
-    anecdoteService
-      .getAll().then(anecdotes => props.initializeAnecdotes(anecdotes))
+    props.initializeAnecdotes()
   },[])
 
   return (
@@ -21,8 +20,7 @@ const App = (props) => {
       <h2>Anecdotes</h2>
       < Filter  />
       < AnecdoteList />
-      <NewAn  />
-      
+      <NewAn  />    
     </div>
   )
 }

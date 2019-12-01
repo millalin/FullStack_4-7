@@ -1,26 +1,16 @@
 import React from 'react'
-import listAnecdotes from './AnecdoteList'
 import { connect} from 'react-redux'
+import {newfilter} from '../reducers/filterReducer'
 
 const Filter = (props) => {
 
     
   const handleChange = (event) => {
-    // input-kentän arvo muuttujassa event.target.value
-    console.log('jeppis', event.target.value.length)
-    if(event.target.value.length === 0) {
-        props.dispatch({
-            type: 'ALL_LISTED',
-            data: event.target.value
-          })
-    } else {
-        props.dispatch({
-            type: 'FILTER',
-            data: event.target.value
-          })
+  
+          props.newfilter(event.target.value)
     }
    
-  }
+  
   const style = {
     marginBottom: 10
   }
@@ -40,5 +30,10 @@ const mapStateToProps = (state) => {
     }
   }
 
-const ConnectedList = connect(mapStateToProps)(Filter)
+  const mapDispatchToProps = {
+    newfilter
+  }
+
+
+const ConnectedList = connect(mapStateToProps,mapDispatchToProps)(Filter)
 export default ConnectedList
