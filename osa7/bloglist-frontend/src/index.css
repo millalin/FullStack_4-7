@@ -1,0 +1,24 @@
+.success {
+    color: green;
+    
+  }
+  
+  li {
+    color:lightgray;
+    padding-top: 4px;
+    font-size: 15px;
+  }
+  
+  .blog {
+    color: grey;
+    font-size: 15px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 15px;
+    border-style: solid;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
