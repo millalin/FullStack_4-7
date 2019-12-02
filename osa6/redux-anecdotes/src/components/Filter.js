@@ -1,39 +1,39 @@
 import React from 'react'
-import { connect} from 'react-redux'
-import {newfilter} from '../reducers/filterReducer'
+import { connect } from 'react-redux'
+import { newfilter } from '../reducers/filterReducer'
 
 const Filter = (props) => {
 
-    
-  const handleChange = (event) => {
-  
-          props.newfilter(event.target.value)
-    }
-   
-  
-  const style = {
-    marginBottom: 10
-  }
 
-  return (
-    <div style={style}>
-      filter <input onChange={handleChange} />
-    </div>
-  )
+    const handleChange = (event) => {
+
+        props.newfilter(event.target.value)
+    }
+
+
+    const style = {
+        marginBottom: 10
+    }
+
+    return (
+        <div style={style}>
+            filter <input onChange={handleChange} />
+        </div>
+    )
 }
 
 const mapStateToProps = (state) => {
     return {
-      anecdotes: state.anecdotes,
-      notification: state.notification,
-      filter: state.filter
+        anecdotes: state.anecdotes,
+        notification: state.notification,
+        filter: state.filter
     }
-  }
+}
 
-  const mapDispatchToProps = {
+const mapDispatchToProps = {
     newfilter
-  }
+}
 
 
-const ConnectedList = connect(mapStateToProps,mapDispatchToProps)(Filter)
+const ConnectedList = connect(mapStateToProps, mapDispatchToProps)(Filter)
 export default ConnectedList

@@ -1,6 +1,6 @@
 import React from 'react'
-import {newAnecdote} from '../reducers/anecdoteReducer'
-import { connect} from 'react-redux'
+import { newAnecdote } from '../reducers/anecdoteReducer'
+import { connect } from 'react-redux'
 
 const NewAn = (props) => {
 
@@ -23,6 +23,6 @@ const NewAn = (props) => {
 }
 
 
-export default connect(null,{newAnecdote})(NewAn)
+export default connect(null, { newAnecdote })(NewAn)
 
 

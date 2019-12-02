@@ -36,7 +36,7 @@ export const vote = (id) => {
       type: 'VOTE',
       data: { id }
     })
-   
+
   }
 }
 
@@ -50,7 +50,7 @@ export const notificationInfo = (content, time) => {
     })
     setTimeout(() => {
       dispatch({ type: 'HIDE_NOTIFICATION' })
-    }, time*1000)
+    }, time * 1000)
   }
 }
 
@@ -78,7 +78,7 @@ const reducer = (state = [], action) => {
     case 'NEW_ANECDOTE':
       return [...state, action.data]
     case 'ALL_LISTED':
-        return action.data
+      return action.data
     case 'VOTE':
       const id = action.data.id
       const anecdoteToChange = state.find(a => a.id === id)
@@ -88,12 +88,12 @@ const reducer = (state = [], action) => {
       }
       const list = state.map(anecdote =>
         anecdote.id !== id ? anecdote : changedAnecdote)
-        list.sort(function (a, b) {
-          return b.votes - a.votes;
-        });
-        
+      list.sort(function (a, b) {
+        return b.votes - a.votes;
+      });
+
       return list
-      
+
     default:
       return state
   }

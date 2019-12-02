@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 
 const Notification = (props) => {
@@ -9,19 +9,17 @@ const Notification = (props) => {
     borderWidth: 1
   }
 
- 
-if(props.notification === 'start') {
-  return (
-    <div></div>
-  )
-}
+
+  if (props.notification === 'start') {
+    return (
+      <div></div>
+    )
+  }
 
   return (
     <div style={style}>
       You voted '
        {props.notification} '
-
-     
     </div>
   )
 }
