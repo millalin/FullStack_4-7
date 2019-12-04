@@ -1,66 +1,43 @@
-import React, { useState } from 'react'
-import blogService from '../services/blogs'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const Blog = ({ blog, un }) => {
+const Blog = ({ blog, like, remove, creator }) => {
+  const [expanded, setExpanded] = useState(false)
 
-Blog.propTypes  = {
-  blog: PropTypes.object.isRequired,
-  un: PropTypes.string.isRequired
-}
-  const [showinfo, setShowInfo] = useState(true)
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
 
-  const deleteBlog = () => {
-    if (window.confirm(`Remove ${blog.title} by ${blog.author} ?`)){
-      blogService.remove(blog.id)
-    }
-  }
-
-  const delButton = () => {
-  
-   if (un !== blog.user.username){
-      return (
-        <div></div>
-      )
-    }
-
-    return (
-      <div>
-        <button onClick={deleteBlog}>remove</button>
+  const details = () => (
+    <div className='details'>
+      <a href={blog.url}>{blog.url}</a>
+      <div>{blog.likes} likes
+        <button onClick={() => like(blog)}>like</button>
       </div>
-    )
-  }
+      <div>added by {blog.user.name}</div>
+      {creator &&(<button onClick={() => remove(blog)}>remove </button>)}
+    </div>
+  )
 
-  const likeAdding = () => {
-    blog.likes = blog.likes + 1
-
-    blogService.update(blog)
-
-  }
-
-  const showBlog = () => {
-    setShowInfo(!showinfo)
-  }
-
-
-  if (showinfo) {
-    return (
-      <div  onClick={showBlog} >
-       <div> <p>Title: <b> {blog.title}  </b>Author: {blog.author}  </p>
-        <br></br></div>
-      </div>)
-  } else {
-    return (
-      <div onClick={showBlog} >
-        <div ><p>Title: <b> {blog.title}  </b>Author: {blog.author}  </p>
-        <p>Url: {blog.url} Likes: {blog.likes}</p></div>
-        <button onClick={likeAdding}>like</button>
-        {delButton()}
-        <br></br> 
+  return (
+    <div style={blogStyle}>
+      <div onClick={() => setExpanded(!expanded)} className='name'>
+        {blog.title} {blog.author}
       </div>
+      {expanded && details()}
+    </div>
+  )}
 
-    )
-  }
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  like: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
+  creator: PropTypes.bool.isRequired
 }
 
-export default Blog
+export default Blog

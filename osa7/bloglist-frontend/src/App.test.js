@@ -1,49 +1,45 @@
 import React from 'react'
-import { render, waitForElement, fireEvent } from '@testing-library/react'
+import { render, waitForElement } from 'react-testing-library'
 jest.mock('./services/blogs')
 import App from './App'
 
-
-
 describe('<App />', () => {
-    test('if no user logged, blogs are not rendered', async () => {
-        const component = render(
-            <App />
-        )
-        component.rerender(<App />)
+  let component
 
-        const loginbutton = await waitForElement(
-            () => component.getByText('login')
-        )
-        expect(loginbutton).toBeDefined()
+  beforeEach(() => {
+    component = render(
+      <App />
+    )
+  })
 
-        const blogs = component.container.querySelectorAll('.blog')
-        expect(blogs.length).toBe(0)
+  it('if no user logged, notes are not rendered', async () => {
+    component.rerender(<App />)
 
-    })
+    await waitForElement(() => component.getByText('kirjaudu'))
 
-    test('if user is logged in, blogs are rendered', async () => {
+    expect(component.container).toHaveTextContent('kirjaudu')
+    expect(component.container).toHaveTextContent('log in to application')
+    expect(component.container).toHaveTextContent('käyttäjätunnus')
+    expect(component.container).toHaveTextContent('salasana')
+    expect(component.container).not.toHaveTextContent('Dan Abramov')
+  })
 
+  it('if no user logged, notes are not rendered2', async () => {
+    const user = {
+      username: 'tester',
+      token: '1231231214',
+      name: 'Teuvo Testaaja'
+    }
 
-            const user = {
-                username: 'Ḱalle',
-                token: '123451234',
-                name: 'Kalle Kehveli'
-            }
+    localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
-            localStorage.setItem('loggedUser', JSON.stringify(user))
+    component.rerender(<App />)
 
-            const component = render(
-                <App />
-            )
-            component.rerender(<App />)
+    await waitForElement(() => component.getByText('create'))
 
-
-           // jos lista on näkyvissä
-            const list = component.container.querySelectorAll('.list')
-            expect(list.length).toBe(1)
-
-
-    })
+    expect(component.container).not.toHaveTextContent('käyttäjätunnus')
+    expect(component.container).not.toHaveTextContent('salasana')
+    expect(component.container).toHaveTextContent('Dan Abramov')
+    expect(component.container).toHaveTextContent('Martin Fowler')
+  })
 })
-

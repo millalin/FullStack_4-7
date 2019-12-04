@@ -1,72 +1,41 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from 'react-testing-library'
 import Blog from './Blog'
 
-
 describe('<Blog />', () => {
-
-    let component
-
-
-    const blog = {
-        title: 'Test title',
-        author: 'auth',
-        url: 'url',
-        likes: 2,
-        user: {
-            username: "Kalle",
-            name: "Kalle",
-            id: 12341234
-        },
-        id: 11223344
+  let component
+  const mockHandler = jest.fn()
+  const blog = {
+    title: 'First class tests',
+    author: 'Robert C. Martin',
+    url: 'https://cleancoder.com/first_class_tests',
+    likes: 5,
+    user: {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen'
     }
+  }
 
+  beforeEach(() => {
+    component = render(<Blog
+      blog={blog}
+      like={mockHandler}
+      remove={mockHandler}
+      creator={false}
+    />)
+  })
 
+  test('at start only author and title shown',() => {
+    expect(component.container).toHaveTextContent(blog.author)
+    expect(component.container).toHaveTextContent(blog.title)
+    expect(component.container).not.toHaveTextContent(blog.url)
+    expect(component.container).not.toHaveTextContent('like')
+  })
 
-
-
-    test('renders content', () => {
-        component = render(
-            <Blog blog={blog} un='Kalle' />
-
-
-        )
-
-        expect(component.container).toHaveTextContent(
-            'Test title'
-        )
-
-        expect(component.container).toHaveTextContent(
-            'auth'
-        )
-
-        expect(component.container).not.toHaveTextContent(
-            'url'
-        )
-
-        expect(component.container).not.toHaveTextContent(
-            '2'
-        )
-
-    })
-
-    test('renders content when pressed', () => {
-        component = render(
-            <Blog blog={blog} un='Kalle' />
-
-
-        )
-        const press = component.getByText('Test title')
-        fireEvent.click(press)
-
-        expect(component.container).toHaveTextContent('Test title')
-        expect(component.container).toHaveTextContent('url')
-        expect(component.container).toHaveTextContent(
-            '2'
-        )
-    })
-
-
-
-
-}) 
+  test('after click', () => {
+    const div = component.container.querySelector('.name')
+    fireEvent.click(div)
+    expect(component.container).toHaveTextContent(blog.url)
+    expect(component.container).toHaveTextContent('like')
+  })
+})

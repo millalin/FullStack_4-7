@@ -1,25 +1,19 @@
 import { useState } from 'react'
 
 export const useField = (type) => {
-    const [value, setValue] = useState('')
+  const [value, setValue] = useState('')
 
-    const onChange = (event) => {
-        setValue(event.target.value)
-    }
+  const onChange = (event) => {
+    setValue(event.target.value)
+  }
 
-    const reset = () => {
-        setValue('')
-    }
+  const reset = () => {
+    setValue('')
+  }
 
-    return {
-        type,
-        value,
-        onChange,
-        reset
-    }
-}
-
-
-export const useAnotherHook = () => {
-    
+  return [{
+    type,
+    value,
+    onChange,
+  }, reset]
 }
