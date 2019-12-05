@@ -1,5 +1,9 @@
 import React from 'react'
 import { useField } from '../hooks'
+import { connect } from 'react-redux'
+import { newBlog } from '../reducers/blogReducer'
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
+
 
 const NewBlog = (props) => {
   const [title, titleReset] = useField('text')
@@ -8,11 +12,16 @@ const NewBlog = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    props.createBlog({
-      title: title.value,
-      author: author.value,
-      url: url.value
-    })
+    //const cont = event.target.blog.value
+    const content = ({
+      title: event.target.title.value,
+      author: event.target.author.value,
+      url: event.target.url.value,
+      likes: 0
+    }) 
+    props.newBlog(content)
+    props.setNotification(event.target.title.value)
+
     titleReset()
     authorReset()
     urlReset()
@@ -25,15 +34,15 @@ const NewBlog = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           title:
-          <input {...title} />
+          <input name="title" />
         </div>
         <div>
           author:
-          <input {...author} />
+          <input name="author" />
         </div>
         <div>
           url:
-          <input {...url} />
+          <input name="url" />
         </div>
         <button type='submit'>create</button>
       </form>
@@ -41,4 +50,12 @@ const NewBlog = (props) => {
   )
 }
 
-export default NewBlog
+//export default NewBlog
+
+const mapDispatchToProps = ({
+  NewBlog,
+  setNotification
+})
+
+export default connect(
+ null, {newBlog, setNotification})(NewBlog)

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 const Blog = ({ blog, like, remove, creator }) => {
   const [expanded, setExpanded] = useState(false)
@@ -41,3 +42,12 @@ Blog.propTypes = {
 }
 
 export default Blog
+
+/*
+const mapStateToProps = (state) => ({
+  blogs: state.blogs
+})
+
+export default connect(
+  mapStateToProps
+)(Blog)*/

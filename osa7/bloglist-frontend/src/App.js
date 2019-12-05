@@ -5,9 +5,12 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
+import BlogList from './components/Bloglist'
 import Togglable from './components/Togglable'
 import { useField } from './hooks'
-import {setNotification, clearNotification} from './reducers/notificationReducer'
+import { setNotification, clearNotification } from './reducers/notificationReducer'
+import { initializeBlogs, newBlog } from './reducers/blogReducer'
+
 
 const App = (props) => {
 
@@ -15,16 +18,11 @@ const App = (props) => {
 
   const [username] = useField('text')
   const [password] = useField('password')
-  const [blogs, setBlogs] = useState([])
+  //const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  //const [notification, setNotification] = useState({
- //   message: null
-  //})
 
   useEffect(() => {
-    blogService.getAll().then(blogs => {
-      setBlogs(blogs)
-    })
+    props.initializeBlogs()
   }, [])
 
   useEffect(() => {
@@ -36,13 +34,7 @@ const App = (props) => {
     }
   }, [])
 
-  const notify = (message, type = 'success') => {
-    //setNotification({ message, type })
-    //setTimeout(() => setNotification({ message: null }), 10000)
-    
-      props.setNotification(message)
-    
-  }
+  
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -66,28 +58,24 @@ const App = (props) => {
     window.localStorage.removeItem('loggedBlogAppUser')
   }
 
-  const createBlog = async (blog) => {
-    const createdBlog = await blogService.create(blog)
+  const notify = (message, type = 'success') => {
+    //setNotification({ message, type })
+    //setTimeout(() => setNotification({ message: null }), 10000)
+
+    setNotification(message)
+
+  }
+  /*const createBlog = async (blog) => {
+    //const createdBlog = await blogService.create(blog)
     newBlogRef.current.toggleVisibility()
-    setBlogs(blogs.concat(createdBlog))
-    notify(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
-  }
+    //setBlogs(blogs.concat(createdBlog))
 
-  const likeBlog = async (blog) => {
-    const likedBlog = { ...blog, likes: blog.likes + 1}
-    const updatedBlog = await blogService.update(likedBlog)
-    setBlogs(blogs.map(b => b.id === blog.id ? updatedBlog : b))
-    notify(`blog ${updatedBlog.title} by ${updatedBlog.author} liked!`)
-  }
+    const b = newBlog(blog)
 
-  const removeBlog = async (blog) => {
-    const ok = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
-    if (ok) {
-      const updatedBlog = await blogService.remove(blog)
-      setBlogs(blogs.filter(b => b.id !== blog.id))
-      notify(`blog ${updatedBlog.title} by ${updatedBlog.author} removed!`)
-    }
-  }
+    notify(`a new blog ${b.title} by ${b.author} added`)
+  }*/
+
+
 
   if (user === null) {
     return (
@@ -99,7 +87,7 @@ const App = (props) => {
         <form onSubmit={handleLogin}>
           <div>
             käyttäjätunnus
-            <input {...username}/>
+            <input {...username} />
           </div>
           <div>
             salasana
@@ -124,22 +112,13 @@ const App = (props) => {
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>logout</button>
 
-      <Togglable buttonLabel='create new' ref={newBlogRef}>
-        <NewBlog createBlog={createBlog} />
+      <Togglable buttonLabel='create new' ref={newBlog}>
+        <NewBlog />
       </Togglable>
 
-      {blogs.sort(byLikes).map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          like={likeBlog}
-          remove={removeBlog}
-          user={user}
-          creator={blog.user.username === user.username}
-        />
-      )}
+      <BlogList/>
     </div>
   )
 }
 
-export default connect(null, { setNotification, clearNotification })(App)
+export default connect(null, { setNotification, clearNotification, initializeBlogs })(App)
