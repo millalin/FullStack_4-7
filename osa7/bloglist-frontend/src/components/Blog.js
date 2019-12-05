@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { addlike, remove } from '../reducers/blogReducer'
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, like, remove, creator }) => {
+
+const Blog = (props) => {
+
+  const blog = props.blog
+
   const [expanded, setExpanded] = useState(false)
 
   const blogStyle = {
@@ -12,15 +17,25 @@ const Blog = ({ blog, like, remove, creator }) => {
     borderWidth: 1,
     marginBottom: 5
   }
+  
+  const likeBlog =  () => {
+    props.addlike(blog)
+    props.setNotification(`blog ${blog.title} liked`)
+   }
+
+   const removeBlog =  () => {
+    props.remove(blog)
+    props.setNotification(`${blog.title} deleted`)
+  }
 
   const details = () => (
     <div className='details'>
       <a href={blog.url}>{blog.url}</a>
       <div>{blog.likes} likes
-        <button onClick={() => like(blog)}>like</button>
+        <button onClick={likeBlog}>like</button>
       </div>
       <div>added by {blog.user.name}</div>
-      {creator &&(<button onClick={() => remove(blog)}>remove </button>)}
+      {(<button onClick={removeBlog}>remove </button>)}
     </div>
   )
 
@@ -34,20 +49,15 @@ const Blog = ({ blog, like, remove, creator }) => {
   )}
 
 
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  like: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
-  creator: PropTypes.bool.isRequired
+
+
+const mapDispatchToProps = {
+  addlike,
+  remove,
+  setNotification
 }
 
-export default Blog
-
-/*
-const mapStateToProps = (state) => ({
-  blogs: state.blogs
-})
 
 export default connect(
-  mapStateToProps
-)(Blog)*/
+ null, mapDispatchToProps
+)(Blog)

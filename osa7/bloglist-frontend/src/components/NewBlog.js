@@ -1,18 +1,15 @@
 import React from 'react'
-import { useField } from '../hooks'
 import { connect } from 'react-redux'
 import { newBlog } from '../reducers/blogReducer'
 import { setNotification, clearNotification } from '../reducers/notificationReducer'
 
 
 const NewBlog = (props) => {
-  const [title, titleReset] = useField('text')
-  const [author, authorReset] = useField('text')
-  const [url, urlReset] = useField('text')
+  
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    //const cont = event.target.blog.value
+    
     const content = ({
       title: event.target.title.value,
       author: event.target.author.value,
@@ -22,9 +19,10 @@ const NewBlog = (props) => {
     props.newBlog(content)
     props.setNotification(event.target.title.value)
 
-    titleReset()
-    authorReset()
-    urlReset()
+    event.target.title.value = ''
+    event.target.author.value = ''
+    event.target.url.value = ''
+    
   }
 
   return (
@@ -49,8 +47,6 @@ const NewBlog = (props) => {
     </div>
   )
 }
-
-//export default NewBlog
 
 const mapDispatchToProps = ({
   NewBlog,

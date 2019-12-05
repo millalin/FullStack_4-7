@@ -18,7 +18,6 @@ const App = (props) => {
 
   const [username] = useField('text')
   const [password] = useField('password')
-  //const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -59,22 +58,10 @@ const App = (props) => {
   }
 
   const notify = (message, type = 'success') => {
-    //setNotification({ message, type })
-    //setTimeout(() => setNotification({ message: null }), 10000)
-
+   
     setNotification(message)
 
   }
-  /*const createBlog = async (blog) => {
-    //const createdBlog = await blogService.create(blog)
-    newBlogRef.current.toggleVisibility()
-    //setBlogs(blogs.concat(createdBlog))
-
-    const b = newBlog(blog)
-
-    notify(`a new blog ${b.title} by ${b.author} added`)
-  }*/
-
 
 
   if (user === null) {
