@@ -49,10 +49,6 @@ const NewBlog = (props) => {
   )
 }
 
-const mapDispatchToProps = ({
-  NewBlog,
-  setNotification
-})
 
 export default connect(
  null, {newBlog, setNotification})(NewBlog)

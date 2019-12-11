@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "eslint-plugin-react": "^7.17.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.0-alpha.0",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -19,10 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "proxy": "http://localhost:3003",
   "browserslist": [
@@ -35,7 +32,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "deep-freeze": "0.0.1",
-    "eslint-plugin-jest": "^22.21.0",
+    "eslint": "^5.6.0",
     "jest-dom": "^3.0.1",
     "react-testing-library": "^5.4.4"
   }
