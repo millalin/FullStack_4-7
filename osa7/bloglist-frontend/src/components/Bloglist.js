@@ -3,12 +3,17 @@ import { connect } from 'react-redux'
 import Blog from './Blog'
 import { setNotification, clearNotification } from '../reducers/notificationReducer'
 import { initializeBlogs } from '../reducers/blogReducer'
+import { Table } from 'react-bootstrap'
 
 const blogList = (props) => {
 
 
   return (
+    
     <div>
+      <h2>Blogs</h2>
+      <Table striped bordered hover>
+        <tbody>
       {props.blogs.map(blog =>
          <Blog
           key={blog.id}
@@ -16,6 +21,9 @@ const blogList = (props) => {
         />
 
       )}
+      
+      </tbody>
+      </Table>
     </div>
   )
 }

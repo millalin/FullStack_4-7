@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { newBlog } from '../reducers/blogReducer'
 import { setNotification, clearNotification } from '../reducers/notificationReducer'
+import { Table, Form, Button } from 'react-bootstrap'
 
 
 const NewBlog = (props) => {
@@ -42,7 +43,7 @@ const NewBlog = (props) => {
           url:
           <input name="url" />
         </div>
-        <button type='submit'>create</button>
+        <Button variant="outline-info" type='submit'>create</Button>
       </form>
     </div>
   )

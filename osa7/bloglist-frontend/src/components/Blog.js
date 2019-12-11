@@ -39,13 +39,13 @@ const Blog = (props) => {
     </div>
   )
 
-  return (
-    <div style={blogStyle}>
+  return (<tr>
+    <div style={blogStyle}> 
       <div onClick={() => setExpanded(!expanded)} className='name'>
-        {blog.title} {blog.author}
+      <td> {blog.title} {blog.author} </td>
       </div>
       {expanded && details()}
-    </div>
+    </div></tr>
   )}
 
 

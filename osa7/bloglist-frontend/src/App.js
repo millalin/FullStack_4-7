@@ -10,11 +10,17 @@ import Togglable from './components/Togglable'
 import { useField } from './hooks'
 import { setNotification, clearNotification } from './reducers/notificationReducer'
 import { initializeBlogs, newBlog } from './reducers/blogReducer'
-
+import {
+  BrowserRouter as Router,
+  Route, Link, Redirect, withRouter
+} from 'react-router-dom'
+import UserList from './components/UserList'
+import { Table, Form, Button } from 'react-bootstrap'
+import {Navbar, Nav, NavItem} from 'react-bootstrap';
 
 const App = (props) => {
 
-  const store = props.store
+  const padding = { padding: 5 }
 
   const [username] = useField('text')
   const [password] = useField('password')
@@ -71,39 +77,73 @@ const App = (props) => {
 
         <Notification />
 
-        <form onSubmit={handleLogin}>
+        <Form onSubmit={handleLogin}>
+          <Form.Group>
           <div>
-            käyttäjätunnus
-            <input {...username} />
+            <Form.Label> käyttäjätunnus</Form.Label>
+            <Form.Control {...username} /> 
+            
           </div>
           <div>
-            salasana
-            <input {...password} />
+          <Form.Label> salasana</Form.Label>
+            <Form.Control {...password} /> 
+   
           </div>
-          <button type="submit">kirjaudu</button>
-        </form>
+          <Button variant="info" type="submit">kirjaudu</Button>
+       </Form.Group>
+        </Form>
       </div>
     )
   }
 
-  const newBlogRef = React.createRef()
-
-  const byLikes = (b1, b2) => b2.likes - b1.likes
 
   return (
-    <div>
-      <h2>blogs</h2>
+    <div class="container">
+ 
 
       <Notification />
 
-      <p>{user.name} logged in</p>
-      <button onClick={handleLogout}>logout</button>
 
-      <Togglable buttonLabel='create new' ref={newBlog}>
-        <NewBlog />
-      </Togglable>
+      <Router>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+  <Navbar.Collapse id="responsive-navbar-nav">
+    <Nav className="mr-auto">
 
-      <BlogList/>
+          <div>
+          <Nav.Link href="#" as="span">
+            <Link style={padding} to="/blogs">Blogs</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+            <Link style={padding} to="/users">Users</Link>
+            </Nav.Link>
+          </div>
+
+          
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>
+
+          <h2>Blog app</h2>
+          <div>  <p>{user.name} logged in</p>
+      <Button variant="info" onClick={handleLogout}>logout</Button>
+          <Route path="/blogs" render={() => 
+          <div>
+          <Togglable buttonLabel='create new' ref={newBlog}>
+          <NewBlog />
+        </Togglable>
+          <BlogList />
+          </div>} />
+          <Route path="/users" render={() => <UserList />} />
+        </div>
+      </Router>
+
+
+
+
+
+
+
     </div>
   )
 }
