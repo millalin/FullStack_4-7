@@ -17,13 +17,13 @@ const Blog = (props) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  
-  const likeBlog =  () => {
+
+  const likeBlog = () => {
     props.addlike(blog)
     props.setNotification(`blog ${blog.title} liked`)
-   }
+  }
 
-   const removeBlog =  () => {
+  const removeBlog = () => {
     props.remove(blog)
     props.setNotification(`${blog.title} deleted`)
   }
@@ -32,7 +32,7 @@ const Blog = (props) => {
     <div className='details'>
       <a href={blog.url}>{blog.url}</a>
       <div>{blog.likes} likes
-        <button onClick={likeBlog}>like</button>
+        <button id='like' onClick={likeBlog}>like</button>
       </div>
       <div>added by {blog.user.name}</div>
       {(<button onClick={removeBlog}>remove </button>)}
@@ -40,13 +40,14 @@ const Blog = (props) => {
   )
 
   return (<tr>
-    <div style={blogStyle}> 
-      <div onClick={() => setExpanded(!expanded)} className='name'>
-      <td> {blog.title} {blog.author} </td>
+    <div style={blogStyle}>
+      <div id='blogclick' onClick={() => setExpanded(!expanded)} className='name'>
+        <td> {blog.title} {blog.author} </td>
       </div>
       {expanded && details()}
     </div></tr>
-  )}
+  )
+}
 
 
 
@@ -59,5 +60,5 @@ const mapDispatchToProps = {
 
 
 export default connect(
- null, mapDispatchToProps
+  null, mapDispatchToProps
 )(Blog)
