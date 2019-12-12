@@ -19,9 +19,7 @@ const blogList = (props) => {
           key={blog.id}
           blog={blog} 
         />
-
       )}
-      
       </tbody>
       </Table>
     </div>
